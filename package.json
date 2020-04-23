@@ -1,0 +1,23 @@
+{
+  "name": "simple-data-state",
+  "version": "0.0.1",
+  "description": "A simple state management library to capture state with data",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ryansukale/simple-state.git"
+  },
+  "keywords": [
+    "statemachine",
+    "state"
+  ],
+  "author": "ryansukale@gmail.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ryansukale/simple-state/issues"
+  },
+  "homepage": "https://github.com/ryansukale/simple-state#readme"
+}
