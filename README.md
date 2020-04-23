@@ -1,4 +1,4 @@
-# simple-state
+# lean-state-machine
 
 ---
 
