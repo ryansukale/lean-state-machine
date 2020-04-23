@@ -1,6 +1,6 @@
 {
-  "name": "simple-data-state",
-  "version": "0.0.1",
+  "name": "lean-state-machine",
+  "version": "0.0.2",
   "description": "A simple state management library to capture state with data",
   "main": "index.js",
   "scripts": {
