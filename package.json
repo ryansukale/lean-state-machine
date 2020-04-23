@@ -1,6 +1,6 @@
 {
   "name": "lean-state-machine",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "A simple state management library to capture state with data",
   "main": "index.js",
   "scripts": {
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ryansukale/simple-state.git"
+    "url": "git+https://github.com/ryansukale/lean-state-machine.git"
   },
   "keywords": [
     "statemachine",
@@ -17,7 +17,7 @@
   "author": "ryansukale@gmail.com",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ryansukale/simple-state/issues"
+    "url": "https://github.com/ryansukale/lean-state-machine/issues"
   },
-  "homepage": "https://github.com/ryansukale/simple-state#readme"
+  "homepage": "https://github.com/ryansukale/lean-state-machine#readme"
 }
