@@ -34,7 +34,7 @@ function createProxy({
     state = nextState;
     updater && updateContext(updater(context));
 
-    onUpdate && onUpdate.map(fn => fn(
+    onUpdate && onUpdate.forEach(fn => fn(
       context,
       {state : {prev: prevState, current: state}}
     ));
@@ -42,6 +42,10 @@ function createProxy({
   }
 
   const machine = {
+    states: Object.keys(states).reduce((acc, curr) => {
+      acc[curr] = curr;
+      return acc;
+    }, {}),
     isValidState,
     getState,
     getContext,
@@ -91,15 +95,15 @@ function debug(machine) {
 }
 
 console.clear();
-// machine.setState("success");
-debug(machine);
-console.log('');
-machine.updateContext({error: 'Oh no!'});
-machine.setState("error");
+machine.update(machine.states.loading);
 debug(machine);
 console.log('')
-machine.result = 20;
+machine.update(machine.states.error, ctx => ({error: 'Error! 401'}));
 debug(machine);
 console.log('')
-machine.update("success", ctx => ({result: 200}));
+machine.update(machine.states.loading, ctx => ({error: 'Error! 401'}));
 debug(machine);
+console.log('')
+machine.update(machine.states.success, ctx => ({result: 200}));
+debug(machine);
+console.log('')
