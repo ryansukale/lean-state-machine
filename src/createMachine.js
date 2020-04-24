@@ -3,7 +3,7 @@ function createProxy({
   initialState,
   states
 }) {
-  const context = {...initialContext};
+  let context = {...initialContext};
   let state = initialState;
 
   const proxy = {
@@ -16,17 +16,25 @@ function createProxy({
     },
     getContext() {
       return context;
+    },
+    setContext(newContext) {
+      context = newContext;
+      return context;
+    },
+    updateContext(newContext) {
+      context = {...context, ...newContext};
+      return context;
     }
   };
 
-  Object.entries(initialContext).forEach(([key]) => {
-    Object.defineProperty(proxy, key, {
-      set(nextValue) {
-        context[key] = nextValue;
-      },
-      get() { return context[key]; }
-    })
-  });
+  // Object.entries(initialContext).forEach(([key]) => {
+  //   Object.defineProperty(proxy, key, {
+  //     set(nextValue) {
+  //       context[key] = nextValue;
+  //     },
+  //     get() { return context[key]; }
+  //   })
+  // });
 
   return proxy;
 }
@@ -51,12 +59,12 @@ let machine = createMachine({
 });
 
 function debug(machine) {
-  console.log(`{result, error, getState}`);
-  console.log(`{${machine.result}, ${machine.error}, ${machine.getState()}}`);
+  console.log(`{context, state}`);
+  console.log(`{${JSON.stringify(machine.getContext(), null, 2)}, ${machine.getState()}}`);
 }
-machine.setState("loading");
-debug(machine);
+
 machine.setState("success");
 debug(machine);
-machine.error = 'Oh no!'
+machine.updateContext({error: 'Oh no!'});
+machine.setState("error");
 debug(machine);
