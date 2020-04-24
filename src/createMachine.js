@@ -65,37 +65,4 @@ function createMachine({
   return machine;
 }
 
-let machine = createMachine({
-  context: {result: 10, error: undefined},
-  initial: 'init',
-  states: {
-  	init: {},
-    loading: {},
-    success: {},
-    error: {},
-  }
-}, {
-  onUpdate: [
-    (ctx, event) => console.log('onUpdate event', event)
-  ]
-});
-
-function debug(machine) {
-  console.log(`{result, error, state}`);
-  // console.log(`{${JSON.stringify(machine.getContext(), null, 2)}, ${machine.getState()}}`);
-  console.log(`{${machine.result}, ${machine.error}, ${machine.getState()}}`);
-}
-
-console.clear();
-machine.update(machine.states.loading);
-debug(machine);
-console.log('')
-machine.update(machine.states.error, ctx => ({error: 'Error! 401'}));
-debug(machine);
-console.log('')
-machine.update(machine.states.loading, ctx => ({error: 'Error! 401'}));
-debug(machine);
-console.log('')
-machine.update(machine.states.success, ctx => ({result: 200}));
-debug(machine);
-console.log('')
+export default createMachine;
