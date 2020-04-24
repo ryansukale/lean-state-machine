@@ -1,11 +1,28 @@
-function createMachineProxy(initialContext, states) {
+function createProxy({
+  initialContext,
+  initialState,
+  states
+}) {
   const context = {...initialContext};
-  const proxy = {};
+  let state = initialState;
 
-  Object.entries(obj).forEach(([key]) => {
+  const proxy = {
+    setState: (stateName) => {
+      // You can only set a name to one of the predefined states
+      state = states[stateName] ? stateName : state;
+    },
+    getState() {
+      return state;
+    },
+    getContext() {
+      return context;
+    }
+  };
+
+  Object.entries(initialContext).forEach(([key]) => {
     Object.defineProperty(proxy, key, {
-      set(next) {
-        context[key] = next;
+      set(nextValue) {
+        context[key] = nextValue;
       },
       get() { return context[key]; }
     })
@@ -14,6 +31,32 @@ function createMachineProxy(initialContext, states) {
   return proxy;
 }
 
-function createMachine(context, states) {
-
+function createMachine({context, initial, states}) {
+  return createProxy({
+    initialContext: context,
+    initialState: initial,
+    states
+  })
 }
+
+let machine = createMachine({
+  context: {value: 10, error: undefined},
+  initial: 'init',
+  states: {
+  	init:{},
+    loading: {},
+    success: {},
+    failure: {},
+  }
+});
+
+function debug(machine) {
+  console.log(`{result, error, getState}`);
+  console.log(`{${machine.result}, ${machine.error}, ${machine.getState()}}`);
+}
+machine.setState("loading");
+debug(machine);
+machine.setState("success");
+debug(machine);
+machine.error = 'Oh no!'
+debug(machine);
