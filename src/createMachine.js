@@ -9,7 +9,13 @@ function createProxy({
   const proxy = {
     setState: (stateName) => {
       // You can only set a name to one of the predefined states
-      state = states[stateName] ? stateName : state;
+      if (states[stateName]) {
+        state = stateName;
+        return true;
+      }
+
+      console && console.warn(`Unknown state ${stateName}`);
+      return false;
     },
     getState() {
       return state;
@@ -24,6 +30,9 @@ function createProxy({
     updateContext(newContext) {
       context = {...context, ...newContext};
       return context;
+    },
+    update(stateName, updater) {
+      return this.setState(stateName) ? this.updateContext(updater(context)) : false;
     }
   };
 
@@ -32,6 +41,8 @@ function createProxy({
       // set(nextValue) {
       //   context[key] = nextValue;
       // },
+      // No setters, so you cant accidentally modify the context
+      // from the outside
       get() { return context[key]; }
     })
   });
@@ -54,7 +65,7 @@ let machine = createMachine({
   	init:{},
     loading: {},
     success: {},
-    failure: {},
+    error: {},
   }
 });
 
@@ -64,11 +75,14 @@ function debug(machine) {
   console.log(`{${machine.result}, ${machine.error}, ${machine.getState()}}`);
 }
 
-machine.setState("success");
-debug(machine);
+// machine.setState("success");
+// debug(machine);
 machine.updateContext({error: 'Oh no!'});
 machine.setState("error");
 debug(machine);
 console.log('')
 machine.result = 20;
+debug(machine);
+console.log('')
+machine.update("success", ctx => ({result: 200}));
 debug(machine);
