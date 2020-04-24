@@ -27,14 +27,14 @@ function createProxy({
     }
   };
 
-  // Object.entries(initialContext).forEach(([key]) => {
-  //   Object.defineProperty(proxy, key, {
-  //     set(nextValue) {
-  //       context[key] = nextValue;
-  //     },
-  //     get() { return context[key]; }
-  //   })
-  // });
+  Object.entries(initialContext).forEach(([key]) => {
+    Object.defineProperty(proxy, key, {
+      // set(nextValue) {
+      //   context[key] = nextValue;
+      // },
+      get() { return context[key]; }
+    })
+  });
 
   return proxy;
 }
@@ -48,7 +48,7 @@ function createMachine({context, initial, states}) {
 }
 
 let machine = createMachine({
-  context: {value: 10, error: undefined},
+  context: {result: 10, error: undefined},
   initial: 'init',
   states: {
   	init:{},
@@ -59,12 +59,16 @@ let machine = createMachine({
 });
 
 function debug(machine) {
-  console.log(`{context, state}`);
-  console.log(`{${JSON.stringify(machine.getContext(), null, 2)}, ${machine.getState()}}`);
+  console.log(`{result, error, state}`);
+  // console.log(`{${JSON.stringify(machine.getContext(), null, 2)}, ${machine.getState()}}`);
+  console.log(`{${machine.result}, ${machine.error}, ${machine.getState()}}`);
 }
 
 machine.setState("success");
 debug(machine);
 machine.updateContext({error: 'Oh no!'});
 machine.setState("error");
+debug(machine);
+console.log('')
+machine.result = 20;
 debug(machine);
