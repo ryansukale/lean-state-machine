@@ -2,7 +2,7 @@ function createProxy({
   initialContext,
   initialState,
   states
-}) {
+}, { onUpdate }) {
   let context = {...initialContext};
   let state = initialState;
 
@@ -28,16 +28,22 @@ function createProxy({
     context = {...context, ...ctx};
     return context;
   }
-  const update = (stateName, updater) => {
-    if(!isValidState(stateName)) {
+  const update = (nextState, updater) => {
+    if(!isValidState(nextState)) {
       return false;
     }
-    state = stateName;
+    const prevState = state;
+    state = nextState;
     updater && updateContext(updater(context));
+
+    onUpdate && onUpdate.map(fn => fn(
+      context,
+      {state : {prev: prevState, current: state}}
+    ));
     return context;
   }
 
-  const proxy = {
+  const machine = {
     setState,
     getState,
     getContext,
@@ -47,32 +53,36 @@ function createProxy({
   };
 
   Object.entries(initialContext).forEach(([key]) => {
-    Object.defineProperty(proxy, key, {
+    Object.defineProperty(machine, key, {
       // Only allow directly reading context attributes
       get() { return context[key]; }
     })
   });
 
-  return proxy;
+  return machine;
 }
 
-function createMachine({context, initial, states}) {
+function createMachine({context, initial, states}, { onUpdate }) {
   return createProxy({
     initialContext: context,
     initialState: initial,
     states
-  });
+  }, { onUpdate });
 }
 
 let machine = createMachine({
   context: {result: 10, error: undefined},
   initial: 'init',
   states: {
-  	init:{},
+  	init: {},
     loading: {},
     success: {},
     error: {},
   }
+}, {
+  onUpdate: [
+    (ctx, event) => console.log('onUpdate event', event)
+  ]
 });
 
 function debug(machine) {
