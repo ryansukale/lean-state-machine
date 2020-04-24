@@ -5,44 +5,42 @@ function createProxy({
 }) {
   let context = {...initialContext};
   let state = initialState;
+  const getState = () => state;
+  const getContext = () => context;
+
+  const setState = stateName => {
+    if (states[stateName]) {
+      state = stateName;
+      return true;
+    }
+
+    console && console.warn(`Unknown state ${stateName}`);
+    return false;
+  };
+  const setContext = (ctx) => {
+    context = ctx;
+    return context;
+  }
+  const updateContext = (ctx) => {
+    context = {...context, ...ctx};
+    return context;
+  }
+  const update = (stateName, updater) => {
+    return setState(stateName) ? updateContext(updater(context)) : false;
+  }
 
   const proxy = {
-    setState: (stateName) => {
-      // You can only set a name to one of the predefined states
-      if (states[stateName]) {
-        state = stateName;
-        return true;
-      }
-
-      console && console.warn(`Unknown state ${stateName}`);
-      return false;
-    },
-    getState() {
-      return state;
-    },
-    getContext() {
-      return context;
-    },
-    setContext(newContext) {
-      context = newContext;
-      return context;
-    },
-    updateContext(newContext) {
-      context = {...context, ...newContext};
-      return context;
-    },
-    update(stateName, updater) {
-      return this.setState(stateName) ? this.updateContext(updater(context)) : false;
-    }
+    setState,
+    getState,
+    getContext,
+    setContext,
+    updateContext,
+    update
   };
 
   Object.entries(initialContext).forEach(([key]) => {
     Object.defineProperty(proxy, key, {
-      // set(nextValue) {
-      //   context[key] = nextValue;
-      // },
-      // No setters, so you cant accidentally modify the context
-      // from the outside
+      // Only allow directly reading context attributes
       get() { return context[key]; }
     })
   });
@@ -75,8 +73,10 @@ function debug(machine) {
   console.log(`{${machine.result}, ${machine.error}, ${machine.getState()}}`);
 }
 
+console.clear();
 // machine.setState("success");
-// debug(machine);
+debug(machine);
+console.log('');
 machine.updateContext({error: 'Oh no!'});
 machine.setState("error");
 debug(machine);
