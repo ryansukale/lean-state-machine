@@ -16,10 +16,8 @@ function createProxy({
 
   const getState = () => state;
   const getContext = () => context;
+  const is = s => state === s;
 
-  const setState = stateName => {
-    state = isValidState(stateName) ? stateName : state;
-  };
   const setContext = (ctx) => {
     context = ctx;
     return context;
@@ -44,12 +42,13 @@ function createProxy({
   }
 
   const machine = {
-    setState,
+    isValidState,
     getState,
     getContext,
     setContext,
     updateContext,
-    update
+    update,
+    is
   };
 
   Object.entries(initialContext).forEach(([key]) => {
