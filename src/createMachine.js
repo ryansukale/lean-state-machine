@@ -1,6 +1,6 @@
-function createProxy({
-  initialContext,
-  initialState,
+function createMachine({
+  context: initialContext,
+  state: initialState,
   states
 }, { onUpdate }) {
   let context = {...initialContext};
@@ -63,14 +63,6 @@ function createProxy({
   });
 
   return machine;
-}
-
-function createMachine({context, initial, states}, { onUpdate }) {
-  return createProxy({
-    initialContext: context,
-    initialState: initial,
-    states
-  }, { onUpdate });
 }
 
 let machine = createMachine({
