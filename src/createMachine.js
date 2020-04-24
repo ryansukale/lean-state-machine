@@ -5,17 +5,20 @@ function createProxy({
 }) {
   let context = {...initialContext};
   let state = initialState;
+
+  const isValidState = (stateName) => {
+    if (!states.hasOwnProperty(stateName)) {
+      return false;
+      console && console.warn(`Unknown state ${stateName}`);
+    }
+    return true;
+  };
+
   const getState = () => state;
   const getContext = () => context;
 
   const setState = stateName => {
-    if (states[stateName]) {
-      state = stateName;
-      return true;
-    }
-
-    console && console.warn(`Unknown state ${stateName}`);
-    return false;
+    state = isValidState(stateName) ? stateName : state;
   };
   const setContext = (ctx) => {
     context = ctx;
@@ -26,7 +29,12 @@ function createProxy({
     return context;
   }
   const update = (stateName, updater) => {
-    return setState(stateName) ? updateContext(updater(context)) : false;
+    if(!isValidState(stateName)) {
+      return false;
+    }
+    state = stateName;
+    updater && updateContext(updater(context));
+    return context;
   }
 
   const proxy = {
@@ -53,7 +61,7 @@ function createMachine({context, initial, states}) {
     initialContext: context,
     initialState: initial,
     states
-  })
+  });
 }
 
 let machine = createMachine({
