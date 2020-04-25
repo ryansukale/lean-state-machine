@@ -1,6 +1,8 @@
+import toArray from './lib/toArray';
+
 function createMachine({
   context: initialContext,
-  state: initialState,
+  initial: initialState,
   states
 }, { onUpdate }) {
   let context = {...initialContext};
@@ -34,7 +36,8 @@ function createMachine({
     state = nextState;
     updater && updateContext(updater(context));
 
-    onUpdate && onUpdate.forEach(fn => fn(
+    const fns = toArray(onUpdate);
+    fns.forEach(fn => fn(
       context,
       {state : {prev: prevState, current: state}}
     ));
