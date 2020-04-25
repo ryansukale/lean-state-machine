@@ -1,4 +1,5 @@
 import createMachine from './createMachine';
+import toArray from './lib/toArray';
 
 function createTransitionMachine(params, options) {
   const machine = createMachine(params, options);
@@ -18,14 +19,14 @@ function createTransitionMachine(params, options) {
     }
 
     if (currentOn && currentOn.exit) {
-      const fns = Array.isArray(currentOn.exit) ? currentOn.exit : [currentOn.exit];
+      const fns = toArray(currentOn.exit);
       fns.forEach(f => f(machine.getContext(), event));
     }
 
     const context = machine.update(nextState, updater);
 
     if (nextOn && nextOn.entry) {
-      const fns = Array.isArray(nextOn.entry) ? nextOn.entry : [nextOn.entry];
+      const fns = toArray(nextOn.entry);
       fns.forEach(f => f(context, event));
     }
 
