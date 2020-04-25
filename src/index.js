@@ -1,3 +1,3 @@
-import createMachine from './createMachine';
+import createMachine from "./createMachine";
 
-export {createMachine};
+export { createMachine };

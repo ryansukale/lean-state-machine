@@ -1,11 +1,10 @@
-import toArray from './lib/toArray';
+import toArray from "./lib/toArray";
 
-function createMachine({
-  context: initialContext,
-  initial: initialState,
-  states
-}, { onUpdate }) {
-  let context = {...initialContext};
+function createMachine(
+  { context: initialContext, initial: initialState, states },
+  { onUpdate }
+) {
+  let context = { ...initialContext };
   let state = initialState;
 
   const isValidState = (stateName) => {
@@ -18,18 +17,18 @@ function createMachine({
 
   const getState = () => state;
   const getContext = () => context;
-  const is = s => state === s;
+  const is = (s) => state === s;
 
   const setContext = (ctx) => {
     context = ctx;
     return context;
-  }
+  };
   const updateContext = (ctx) => {
-    context = {...context, ...ctx};
+    context = { ...context, ...ctx };
     return context;
-  }
+  };
   const update = (nextState, updater) => {
-    if(!isValidState(nextState)) {
+    if (!isValidState(nextState)) {
       return false;
     }
     const prevState = state;
@@ -37,12 +36,11 @@ function createMachine({
     updater && updateContext(updater(context));
 
     const fns = toArray(onUpdate);
-    fns.forEach(fn => fn(
-      context,
-      {state : {prev: prevState, current: state}}
-    ));
+    fns.forEach((fn) =>
+      fn(context, { state: { prev: prevState, current: state } })
+    );
     return context;
-  }
+  };
 
   const machine = {
     states: Object.keys(states).reduce((acc, curr) => {
@@ -55,14 +53,16 @@ function createMachine({
     setContext,
     updateContext,
     update,
-    is
+    is,
   };
 
   Object.entries(initialContext).forEach(([key]) => {
     Object.defineProperty(machine, key, {
       // Only allow directly reading context attributes
-      get() { return context[key]; }
-    })
+      get() {
+        return context[key];
+      },
+    });
   });
 
   return machine;
