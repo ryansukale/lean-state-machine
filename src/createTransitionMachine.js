@@ -18,32 +18,21 @@ function createTransitionMachine(params, options) {
     }
 
     if (currentOn && currentOn.exit) {
-      currentOn.exit.forEach(
-        fn => fn(
-          machine.getContext(),
-          event
-        )
-      )
+      const fns = Array.isArray(currentOn.exit) ? currentOn.exit : [currentOn.exit];
+      fns.forEach(f => f(machine.getContext(), event));
     }
 
     const context = machine.update(nextState, updater);
 
     if (nextOn && nextOn.entry) {
-      nextOn.entry.forEach(
-        fn => fn(
-          context,
-          event
-        )
-      )
+      const fns = Array.isArray(nextOn.entry) ? nextOn.entry : [nextOn.entry];
+      fns.forEach(f => f(context, event));
     }
 
     return context;
   }
 
-  return {
-    ...machine,
-    update
-  }
+  return {...machine, update};
 }
 
 export default createTransitionMachine;
