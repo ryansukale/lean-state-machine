@@ -1,43 +1,49 @@
-function createProxy(obj, {entry, exit, onChange}) {
-  const context = {...obj};
-  const proxy = {};
+import createMachine from './createMachine';
 
-  Object.entries(obj).forEach(([key, value]) => {
-    Object.defineProperty(proxy, key, {
-      set(next) {
-        const prev = context[key];
-        if (exit && key === "state") {
-          exit(context, {attribute: key, prev, next});
-        }
+function createTransitionMachine(params, options) {
+  const machine = createMachine(params, options);
+  
+  const update = (nextState, updater) => {
+    if(!machine.isValidState(nextState)) {
+      return false;
+    }
+    
+    const state = machine.getState();
+    const currentOn = params.states[state].on;
+    const nextOn = params.states[nextState].on;
+    let event;
 
-        context[key] = next;
-        
-        if (entry && key ==="state") {
-          entry(context, {attribute: key, prev, next});
-        }
-      },
-      get() { return context[key]; }
-    })
-  });
+    if (currentOn || nextOn) {
+      event = { transition : [state, nextState] };
+    }
 
-  return proxy;
+    if (currentOn && currentOn.exit) {
+      currentOn.exit.forEach(
+        fn => fn(
+          machine.getContext(),
+          event
+        )
+      )
+    }
+
+    const context = machine.update(nextState, updater);
+
+    if (nextOn && nextOn.entry) {
+      nextOn.entry.forEach(
+        fn => fn(
+          context,
+          event
+        )
+      )
+    }
+
+    return context;
+  }
+
+  return {
+    ...machine,
+    update
+  }
 }
 
-function createMachine({
-  context,
-  state = 'init'
-}) {
-  const onChange = (ctx, event) => {
-    console.log('ctx', ctx);
-  };
-  return createProxy({...context, state}, {exit: onChange});
-}
-
-let machine = createMachine({
-  context: {value: 10, error: undefined}
-});
-
-machine.value = 5;
-// machine.state = 'loading';
-machine.error = 'Some error message';
-// machine.state = 'error';
+export default createTransitionMachine;
