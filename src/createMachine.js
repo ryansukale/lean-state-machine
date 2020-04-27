@@ -1,11 +1,12 @@
 import toArray from "./lib/toArray";
 
 function createMachine(
-  { context: initialContext, initial: initialState, states },
+  { context: initialContext = {}, initial: initialState, states },
   { onUpdate }
 ) {
   let context = { ...initialContext };
   let state = initialState;
+  let prevState = undefined;
 
   const isValidState = (stateName) => {
     if (!states.hasOwnProperty(stateName)) {
@@ -18,20 +19,17 @@ function createMachine(
   const getState = () => state;
   const getContext = () => context;
   const is = (s) => state === s;
+  const was = (s) => prevState === s;
 
   const setContext = (ctx) => {
     context = ctx;
-    return context;
-  };
-  const updateContext = (ctx) => {
-    context = { ...context, ...ctx };
     return context;
   };
   const update = (nextState, updater) => {
     if (!isValidState(nextState)) {
       return false;
     }
-    const prevState = state;
+    prevState = state;
     state = nextState;
     updater && updateContext(updater(context));
 
@@ -51,9 +49,9 @@ function createMachine(
     getState,
     getContext,
     setContext,
-    updateContext,
     update,
     is,
+    was,
   };
 
   Object.entries(initialContext).forEach(([key]) => {
