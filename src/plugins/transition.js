@@ -1,9 +1,7 @@
 import createMachine from "./createMachine";
 import toArray from "./lib/toArray";
 
-function createTransitionMachine(params, options) {
-  const machine = createMachine(params, options);
-
+function createTransitionMachine(params, options, machine) {
   const update = (nextState, updater) => {
     if (!machine.isValidState(nextState)) {
       return false;
