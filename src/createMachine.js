@@ -1,9 +1,9 @@
 import toArray from "./lib/toArray";
 
-function createMachine(
+export default (
   { context: initialContext = {}, initial: initialState, states },
   { onUpdate } = {}
-) {
+) => {
   let context = { ...initialContext };
   let state = initialState;
   let prevState = undefined;
@@ -54,6 +54,4 @@ function createMachine(
   });
 
   return machine;
-}
-
-export default createMachine;
+};

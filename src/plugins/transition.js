@@ -1,6 +1,6 @@
 import toArray from "../lib/toArray";
 
-function transition(params, _options, machine) {
+export default function transition(params, _options, machine) {
   const update = (nextState, updater) => {
     if (!machine.isValidState(nextState)) {
       return false;
@@ -32,5 +32,3 @@ function transition(params, _options, machine) {
 
   return { ...machine, update };
 }
-
-export default transition;
