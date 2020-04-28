@@ -2,7 +2,7 @@ import createMachine from "../createMachine";
 
 const enhance = (...plugins) => (params, options) => {
   let baseMachine = createMachine(params, options);
-  plugins.reduceRight(
+  return plugins.reduceRight(
     (machine, plugin) => plugin(params, options, machine),
     baseMachine
   );

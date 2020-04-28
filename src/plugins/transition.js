@@ -1,7 +1,6 @@
-import createMachine from "./createMachine";
-import toArray from "./lib/toArray";
+import toArray from "../lib/toArray";
 
-function createTransitionMachine(params, options, machine) {
+function transition(params, _options, machine) {
   const update = (nextState, updater) => {
     if (!machine.isValidState(nextState)) {
       return false;
@@ -34,4 +33,4 @@ function createTransitionMachine(params, options, machine) {
   return { ...machine, update };
 }
 
-export default createTransitionMachine;
+export default transition;

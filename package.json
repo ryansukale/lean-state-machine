@@ -9,7 +9,7 @@
     "dist/typings.d.ts"
   ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha tests/*.test.js --require @babel/register",
     "clean": "rimraf dist es coverage types",
     "build": "yarn clean && rollup -c",
     "release": "git push --tags && npm publish"
@@ -29,14 +29,17 @@
   },
   "homepage": "https://github.com/ryansukale/lean-state-machine#readme",
   "devDependencies": {
+    "chai": "^4.2.0",
     "husky": "^4.2.5",
+    "mocha": "^7.1.2",
     "prettier": "^2.0.5",
     "pretty-quick": "^2.0.1",
     "rimraf": "^3.0.2",
     "rollup": "^2.7.3",
     "rollup-plugin-filesize": "^7.0.0",
     "rollup-plugin-replace": "^2.2.0",
-    "rollup-plugin-terser": "^5.3.0"
+    "rollup-plugin-terser": "^5.3.0",
+    "sinon": "^9.0.2"
   },
   "husky": {
     "hooks": {
