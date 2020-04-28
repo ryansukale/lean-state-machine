@@ -31,7 +31,7 @@ function createMachine(
     }
     prevState = state;
     state = nextState;
-    updater && updateContext(updater(context));
+    context = !updater ? context : { ...context, ...updater(context) };
 
     const fns = toArray(onUpdate);
     fns.forEach((fn) =>
