@@ -9,7 +9,7 @@
     "dist/typings.d.ts"
   ],
   "scripts": {
-    "test": "mocha tests/*.test.js --require @babel/register",
+    "test": "mocha --require reify tests/*.test.js",
     "clean": "rimraf dist es coverage types",
     "build": "yarn clean && rollup -c",
     "release": "git push --tags && npm publish"
@@ -34,6 +34,7 @@
     "mocha": "^7.1.2",
     "prettier": "^2.0.5",
     "pretty-quick": "^2.0.1",
+    "reify": "^0.20.12",
     "rimraf": "^3.0.2",
     "rollup": "^2.7.3",
     "rollup-plugin-filesize": "^7.0.0",
