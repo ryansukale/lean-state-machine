@@ -6,52 +6,55 @@ function createMachine(
 ) {
   let context = { ...initialContext };
   let state = initialState;
-  let prevState = undefined;
+  let prevName = undefined;
 
   const isValidState = (stateName) => {
     if (!states.hasOwnProperty(stateName)) {
-      return false;
       console && console.warn(`Unknown state ${stateName}`);
+      return false;
     }
     return true;
   };
 
-  const update = (nextState, updater) => {
-    if (!isValidState(nextState)) {
+  const update = (nextName, updater) => {
+    if (!isValidState(nextName)) {
       return false;
     }
-    prevState = state;
-    state = nextState;
+    prevName = state;
+    state = nextName;
     context = !updater ? context : { ...context, ...updater(context) };
 
     const fns = toArray(onUpdate);
     fns.forEach((fn) =>
-      fn(context, { state: { prev: prevState, current: state } })
+      fn(context, { state: { prev: prevName, value: state } })
     );
-    return context;
+    return machine.getState();
   };
 
   const machine = {
-    states: Object.keys(states).reduce((acc, curr) => {
-      acc[curr] = curr;
-      return acc;
-    }, {}),
     isValidState,
-    getState: () => state,
-    getContext: () => context,
+    getState: () => ({ value: state, context: context }),
     is: (s) => state === s,
-    was: (s) => prevState === s,
     update,
+    get context() {
+      return context;
+    },
   };
 
-  Object.entries(initialContext).forEach(([key]) => {
-    Object.defineProperty(machine, key, {
-      // Only allow directly reading context attributes
-      get() {
-        return context[key];
-      },
-    });
-  });
+  // Object.defineProperty(machine, 'context', {
+  //   get() { // Only allow read
+  //     return context;
+  //   },
+  // });
+
+  // Object.entries(initialContext).forEach(([key]) => {
+  //   Object.defineProperty(machine, key, {
+  //     // Only allow directly reading context attributes
+  //     get() {
+  //       return context[key];
+  //     },
+  //   });
+  // });
 
   return machine;
 }
