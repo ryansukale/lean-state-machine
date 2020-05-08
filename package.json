@@ -11,7 +11,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "clean": "rimraf dist es coverage types",
-    "build": "npm run clean && babel src -d dist --extensions '.js'",
+    "build": "rollup -c",
     "release": "git push --tags && npm publish"
   },
   "repository": {
@@ -36,7 +36,11 @@
     "husky": "^4.2.5",
     "prettier": "^2.0.5",
     "pretty-quick": "^2.0.1",
-    "rimraf": "^3.0.2"
+    "rimraf": "^3.0.2",
+    "rollup": "^2.7.3",
+    "rollup-plugin-filesize": "^7.0.0",
+    "rollup-plugin-replace": "^2.2.0",
+    "rollup-plugin-terser": "^5.3.0"
   },
   "husky": {
     "hooks": {
