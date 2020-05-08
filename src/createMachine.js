@@ -2,7 +2,7 @@ import toArray from "./lib/toArray";
 
 function createMachine(
   { context: initialContext = {}, initial: initialState, states },
-  { onUpdate = {} }
+  { onUpdate } = {}
 ) {
   let context = { ...initialContext };
   let state = initialState;
