@@ -11,7 +11,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "clean": "rimraf dist es coverage types",
-    "build": "rollup -c",
+    "build": "yarn clean && rollup -c",
     "release": "git push --tags && npm publish"
   },
   "repository": {
@@ -29,10 +29,6 @@
   },
   "homepage": "https://github.com/ryansukale/lean-state-machine#readme",
   "devDependencies": {
-    "@babel/cli": "^7.8.4",
-    "@babel/core": "^7.9.0",
-    "@babel/preset-env": "^7.9.5",
-    "babel-preset-minify": "^0.5.1",
     "husky": "^4.2.5",
     "prettier": "^2.0.5",
     "pretty-quick": "^2.0.1",
