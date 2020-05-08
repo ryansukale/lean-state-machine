@@ -41,21 +41,6 @@ function createMachine(
     },
   };
 
-  // Object.defineProperty(machine, 'context', {
-  //   get() { // Only allow read
-  //     return context;
-  //   },
-  // });
-
-  // Object.entries(initialContext).forEach(([key]) => {
-  //   Object.defineProperty(machine, key, {
-  //     // Only allow directly reading context attributes
-  //     get() {
-  //       return context[key];
-  //     },
-  //   });
-  // });
-
   return machine;
 }
 
