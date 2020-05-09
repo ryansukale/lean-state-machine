@@ -22,13 +22,27 @@ export default [
   createConfig({
     input: 'src/index.js',
     output: {
-      file: {
-        es: pkg.module,
-        cjs: pkg.main
-      }[buildEnv],
-      format: buildEnv,
+      file: pkg.module,
+      format: 'es',
+    }
+  }),
+  createConfig({
+    input: 'src/index.js',
+    output: {
+      file: pkg.main,
+      format: 'cjs'
     }
   })
+  // {
+  //   input: 'src/index.ts',
+  //   output: [
+  //     {
+  //       dir: 'lib',
+  //       format: 'esm'
+  //     }
+  //   ],
+  //   preserveModules: true
+  // }
   // createConfig({
   //   input: 'src/plugins/expose.js',
   //   output: {

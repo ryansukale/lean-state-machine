@@ -11,9 +11,7 @@
   "scripts": {
     "test": "mocha --require reify tests/*.test.js",
     "clean": "rimraf dist lib",
-    "build": "yarn clean && yarn build:es & yarn build:cjs & yarn build:lib:es",
-    "build:es": "BUILD_ENV=es rollup -c",
-    "build:cjs": "BUILD_ENV=cjs rollup -c",
+    "build": "yarn clean && rollup -c",
     "build:lib:es": "BABEL_ENV=es babel src -d lib",
     "release": "git push --tags && npm publish"
   },
