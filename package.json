@@ -2,11 +2,11 @@
   "name": "lean-state-machine",
   "version": "0.0.4",
   "description": "A simple state management library to capture state with data",
-  "main": "./dist/index.js",
+  "main": "dist/index.js",
+  "module": "dist/index.es.js",
   "files": [
-    "dist/*.js",
-    "dist/*.js.map",
-    "dist/typings.d.ts"
+    "dist",
+    "lib"
   ],
   "scripts": {
     "test": "mocha --require reify tests/*.test.js",

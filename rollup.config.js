@@ -1,5 +1,6 @@
 import { terser } from 'rollup-plugin-terser';
 import fileSize from 'rollup-plugin-filesize';
+import pkg from './package.json';
 
 const createConfig = ({ input, output, tsconfig = undefined }) => ({
   input,
@@ -9,9 +10,9 @@ const createConfig = ({ input, output, tsconfig = undefined }) => ({
     //   clean: true,
     //   tsconfig
     // }),
-    terser({
-      toplevel: true
-    }),
+    // terser({
+    //   toplevel: true
+    // }),
     fileSize()
   ]
 });
@@ -20,17 +21,23 @@ export default [
   createConfig({
     input: 'src/index.js',
     output: {
-      file: 'dist/index.js',
-      format: 'umd',
-      name: 'index'
+      file: pkg.main,
+      format: 'cjs',
     }
   }),
   createConfig({
-    input: 'src/plugins/expose.js',
+    input: 'src/index.js',
     output: {
-      file: 'dist/plugins/expose.js',
-      format: 'umd',
-      name: 'createMachine'
+      file: pkg.module,
+      format: 'es',
     }
   })
+  // createConfig({
+  //   input: 'src/plugins/expose.js',
+  //   output: {
+  //     file: 'dist/plugins/expose.js',
+  //     format: 'umd',
+  //     name: 'createMachine'
+  //   }
+  // })
 ];
