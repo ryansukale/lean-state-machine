@@ -1,6 +1,7 @@
 import { terser } from 'rollup-plugin-terser';
 import fileSize from 'rollup-plugin-filesize';
 import pkg from './package.json';
+const buildEnv = process.env.BUILD_ENV;
 
 const createConfig = ({ input, output, tsconfig = undefined }) => ({
   input,
@@ -21,15 +22,11 @@ export default [
   createConfig({
     input: 'src/index.js',
     output: {
-      file: pkg.main,
-      format: 'cjs',
-    }
-  }),
-  createConfig({
-    input: 'src/index.js',
-    output: {
-      file: pkg.module,
-      format: 'es',
+      file: {
+        es: pkg.module,
+        cjs: pkg.main
+      }[buildEnv],
+      format: buildEnv,
     }
   })
   // createConfig({

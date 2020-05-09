@@ -10,8 +10,10 @@
   ],
   "scripts": {
     "test": "mocha --require reify tests/*.test.js",
-    "clean": "rimraf dist es coverage types",
-    "build": "yarn clean && rollup -c",
+    "clean": "rimraf dist lib",
+    "build": "yarn clean && yarn build:es & yarn build:cjs",
+    "build:es": "BUILD_ENV=es rollup -c",
+    "build:cjs": "BUILD_ENV=cjs rollup -c",
     "release": "git push --tags && npm publish"
   },
   "repository": {
