@@ -1,14 +1,10 @@
 import { terser } from 'rollup-plugin-terser';
-import rollupReplace from 'rollup-plugin-replace';
 import fileSize from 'rollup-plugin-filesize';
 
 const createConfig = ({ input, output, tsconfig = undefined }) => ({
   input,
   output,
   plugins: [
-    rollupReplace({
-      'process.env.NODE_ENV': JSON.stringify('production')
-    }),
     // typescript({
     //   clean: true,
     //   tsconfig
@@ -22,9 +18,17 @@ const createConfig = ({ input, output, tsconfig = undefined }) => ({
 
 export default [
   createConfig({
-    input: 'src/createMachine.js',
+    input: 'src/index.js',
     output: {
-      file: 'dist/createMachine.js',
+      file: 'dist/index.js',
+      format: 'umd',
+      name: 'index'
+    }
+  }),
+  createConfig({
+    input: 'src/plugins/expose.js',
+    output: {
+      file: 'dist/plugins/expose.js',
       format: 'umd',
       name: 'createMachine'
     }
