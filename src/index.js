@@ -1,5 +1,5 @@
-import _createMachine from "./createMachine";
-import _createExposedMachine from "./createExposedMachine";
+import createMachine from "./createMachine";
+import createExposedMachine from "./createExposedMachine";
+import enhance from "./lib/enhance";
 
-export const createMachine = _createMachine;
-export const createExposedMachine = _createExposedMachine;
+export { enhance, createMachine, createExposedMachine };
