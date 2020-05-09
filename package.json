@@ -12,7 +12,6 @@
     "test": "mocha --require reify tests/*.test.js",
     "clean": "rimraf dist lib",
     "build": "yarn clean && rollup -c",
-    "build:lib:es": "BABEL_ENV=es babel src -d lib",
     "release": "git push --tags && npm publish"
   },
   "repository": {
@@ -30,9 +29,6 @@
   },
   "homepage": "https://github.com/ryansukale/lean-state-machine#readme",
   "devDependencies": {
-    "@babel/cli": "^7.8.4",
-    "@babel/core": "^7.9.6",
-    "@babel/preset-env": "^7.9.6",
     "chai": "^4.2.0",
     "husky": "^4.2.5",
     "mocha": "^7.1.2",

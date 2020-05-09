@@ -1,4 +1,4 @@
-import toArray from "./lib/toArray";
+import toArray from "./toArray";
 
 function createMachine(
   { context: initialContext = {}, initial: initialState, states },

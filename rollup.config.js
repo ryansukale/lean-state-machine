@@ -32,17 +32,17 @@ export default [
       file: pkg.main,
       format: 'cjs'
     }
-  })
-  // {
-  //   input: 'src/index.ts',
-  //   output: [
-  //     {
-  //       dir: 'lib',
-  //       format: 'esm'
-  //     }
-  //   ],
-  //   preserveModules: true
-  // }
+  }),
+  {
+    input: 'src/index.js',
+    output: [
+      {
+        dir: 'lib',
+        format: 'esm'
+      }
+    ],
+    preserveModules: true
+  }
   // createConfig({
   //   input: 'src/plugins/expose.js',
   //   output: {
