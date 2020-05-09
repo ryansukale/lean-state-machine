@@ -11,9 +11,9 @@ const createConfig = ({ input, output, tsconfig = undefined }) => ({
     //   clean: true,
     //   tsconfig
     // }),
-    // terser({
-    //   toplevel: true
-    // }),
+    terser({
+      toplevel: true
+    }),
     fileSize()
   ]
 });
