@@ -13,7 +13,9 @@
     "clean": "rimraf dist lib",
     "build": "yarn clean && rollup -c",
     "release-old": "git push --tags && npm publish",
-    "release:preview:unstable": "np --preview --any-branch --tag unstable"
+    "release:unstable": "np --any-branch --tag unstable",
+    "release:preview": "yarn build && np --preview",
+    "release": "yarn build && np"
   },
   "repository": {
     "type": "git",
