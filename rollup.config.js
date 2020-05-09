@@ -1,5 +1,6 @@
 import { terser } from 'rollup-plugin-terser';
 import fileSize from 'rollup-plugin-filesize';
+import resolve from '@rollup/plugin-node-resolve';
 import pkg from './package.json';
 const buildEnv = process.env.BUILD_ENV;
 
@@ -14,7 +15,8 @@ const createConfig = ({ input, output, tsconfig = undefined }) => ({
     terser({
       toplevel: true
     }),
-    fileSize()
+    fileSize(),
+    resolve()
   ]
 });
 
@@ -41,7 +43,8 @@ export default [
         format: 'esm'
       }
     ],
-    preserveModules: true
+    preserveModules: true,
+    plugins: [resolve()]
   }
   // createConfig({
   //   input: 'src/plugins/expose.js',
