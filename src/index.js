@@ -1,7 +1,7 @@
 import createMachine from "./createMachine";
 import createExposedMachine from "./createExposedMachine";
-import enhance from "./enhance";
+import enhanceMachine from "./enhanceMachine";
 import expose from "./plugins/expose";
 const plugins = { expose };
 
-export { enhance, createMachine, createExposedMachine, plugins };
+export { enhanceMachine, createMachine, createExposedMachine, plugins };

@@ -13,7 +13,7 @@
     "clean": "rimraf dist lib",
     "build": "yarn clean && rollup -c",
     "release-old": "git push --tags && npm publish",
-    "release:unstable": "np --any-branch --tag unstable",
+    "release:unstable": "yarn build && np --any-branch --tag unstable",
     "release:preview": "yarn build && np --preview",
     "release": "yarn build && np"
   },

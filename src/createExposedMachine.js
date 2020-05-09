@@ -1,4 +1,4 @@
-import enhance from "./enhance";
+import enhanceMachine from "./enhanceMachine";
 import expose from "./plugins/expose";
 
-export default enhance(expose);
+export default enhanceMachine(expose);
