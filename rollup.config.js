@@ -8,10 +8,6 @@ const createConfig = ({ input, output, tsconfig = undefined }) => ({
   input,
   output,
   plugins: [
-    // typescript({
-    //   clean: true,
-    //   tsconfig
-    // }),
     terser({
       toplevel: true
     }),
@@ -46,12 +42,4 @@ export default [
     preserveModules: true,
     plugins: [resolve()]
   }
-  // createConfig({
-  //   input: 'src/plugins/expose.js',
-  //   output: {
-  //     file: 'dist/plugins/expose.js',
-  //     format: 'umd',
-  //     name: 'createMachine'
-  //   }
-  // })
 ];
