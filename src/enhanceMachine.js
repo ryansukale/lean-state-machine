@@ -1,4 +1,4 @@
-import createMachine from "../createMachine";
+import createMachine from "./createMachine";
 
 export default (...plugins) => (params, options) => {
   let baseMachine = createMachine(params, options);

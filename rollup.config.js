@@ -1,32 +1,45 @@
 import { terser } from 'rollup-plugin-terser';
-import rollupReplace from 'rollup-plugin-replace';
 import fileSize from 'rollup-plugin-filesize';
+import resolve from '@rollup/plugin-node-resolve';
+import pkg from './package.json';
+const buildEnv = process.env.BUILD_ENV;
 
 const createConfig = ({ input, output, tsconfig = undefined }) => ({
   input,
   output,
   plugins: [
-    rollupReplace({
-      'process.env.NODE_ENV': JSON.stringify('production')
-    }),
-    // typescript({
-    //   clean: true,
-    //   tsconfig
-    // }),
     terser({
       toplevel: true
     }),
-    fileSize()
+    fileSize(),
+    resolve()
   ]
 });
 
 export default [
   createConfig({
-    input: 'src/createMachine.js',
+    input: 'src/index.js',
     output: {
-      file: 'dist/createMachine.js',
-      format: 'umd',
-      name: 'createMachine'
+      file: pkg.module,
+      format: 'es',
     }
-  })
+  }),
+  createConfig({
+    input: 'src/index.js',
+    output: {
+      file: pkg.main,
+      format: 'cjs'
+    }
+  }),
+  {
+    input: 'src/index.js',
+    output: [
+      {
+        dir: 'lib',
+        format: 'esm'
+      }
+    ],
+    preserveModules: true,
+    plugins: [resolve()]
+  }
 ];
