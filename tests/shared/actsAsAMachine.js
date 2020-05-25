@@ -45,11 +45,12 @@ export default function actsAsAMachine({ createMachine }) {
       expect(updatedState).to.eql(machine.getState());
     });
 
-    it('does not update if the state name is invalid', function () {
+    it('throws an error if state name is invalid', function () {
       const machine = createMachine(params);
       const prevState = machine.getState();
+      const update = () => machine.update("fooState");
 
-      machine.update("fooState");
+      expect(update).to.throw();
 
       const newState = machine.getState();
       expect(prevState).to.eql(newState);
@@ -61,7 +62,7 @@ export default function actsAsAMachine({ createMachine }) {
       const machine = createMachine(params);
 
       expect(machine.isValidState("loading")).to.equal(true);
-      expect(machine.isValidState("unknown")).to.equal(false);
+      expect(machine.isValidState("foo")).to.equal(false);
     });
   });
 
