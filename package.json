@@ -5,14 +5,12 @@
   "main": "dist/index.js",
   "module": "dist/index.es.js",
   "files": [
-    "dist",
-    "lib"
+    "dist"
   ],
   "scripts": {
     "test": "mocha --require reify tests/*.test.js",
-    "clean": "rimraf dist lib",
+    "clean": "rimraf dist",
     "build": "yarn clean && rollup -c",
-    "release-old": "git push --tags && npm publish",
     "release:unstable:preview": "yarn build && np --any-branch --preview --tag unstable",
     "release:unstable": "yarn build && np --any-branch --tag unstable",
     "release:preview": "yarn build && np --preview",
