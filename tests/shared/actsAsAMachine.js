@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import sinon from 'sinon';
 
 const params = {
   context: {result: 10, error: undefined},
@@ -11,12 +12,6 @@ const params = {
   }
 };
 
-const options = {
-  onUpdate: [
-    (ctx, event) => console.log('onUpdate event', event)
-  ]
-};
-
 export default function actsAsAMachine({ createMachine }) {
   it('creates a machine with an initial state', function () {
     const machine = createMachine(params);
@@ -27,7 +22,7 @@ export default function actsAsAMachine({ createMachine }) {
   });
 
   describe('machine.update', function () {
-    it('updates the machine', function () {
+    it('updates the machine by merging the changes into context', function () {
       const machine = createMachine(params);
       
       let updatedState = machine.update("loading");
@@ -45,11 +40,30 @@ export default function actsAsAMachine({ createMachine }) {
       expect(updatedState).to.eql(machine.getState());
     });
 
-    it('does not update if the state name is invalid', function () {
+    it('invokes onUpdate if provided', function () {
+      const onUpdate = sinon.spy();
+      const options = { onUpdate };
+      const machine = createMachine(params, options);
+      const changes = {result: 200};
+
+      const updatedState = machine.update("success", () => changes);
+      expect(machine.getState()).to.eql({
+        value: 'success',
+        context: {...changes, error: undefined}
+      });
+
+      const fistCallArgs = onUpdate.args[0];
+
+      expect(fistCallArgs[0]).to.eql({ result: 200, error: undefined });
+      expect(fistCallArgs[1]).to.eql({ state: { prev: 'init', value: 'success' } });
+    });
+
+    it('throws an error if state name is invalid', function () {
       const machine = createMachine(params);
       const prevState = machine.getState();
+      const update = () => machine.update("fooState");
 
-      machine.update("fooState");
+      expect(update).to.throw();
 
       const newState = machine.getState();
       expect(prevState).to.eql(newState);
@@ -61,7 +75,7 @@ export default function actsAsAMachine({ createMachine }) {
       const machine = createMachine(params);
 
       expect(machine.isValidState("loading")).to.equal(true);
-      expect(machine.isValidState("unknown")).to.equal(false);
+      expect(machine.isValidState("foo")).to.equal(false);
     });
   });
 

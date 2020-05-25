@@ -1,4 +1,4 @@
-import toArray from "./toArray";
+import toArray from "./lib/toArray";
 
 function createMachine(
   { context: initialContext = {}, initial: initialState, states },
@@ -10,7 +10,6 @@ function createMachine(
 
   const isValidState = (stateName) => {
     if (!states.hasOwnProperty(stateName)) {
-      console && console.warn(`Unknown state ${stateName}`);
       return false;
     }
     return true;
@@ -18,7 +17,7 @@ function createMachine(
 
   const update = (nextName, updater) => {
     if (!isValidState(nextName)) {
-      return false;
+      throw new Error(`Unknown state name ${nextName}`);
     }
     prevName = state;
     state = nextName;
