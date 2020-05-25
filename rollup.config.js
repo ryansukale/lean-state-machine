@@ -17,6 +17,17 @@ const createConfig = ({ input, output, tsconfig = undefined }) => ({
 });
 
 export default [
+  {
+    input: 'src/index.js',
+    output: [
+      {
+        dir: 'dist',
+        format: 'esm'
+      }
+    ],
+    preserveModules: true,
+    plugins: [resolve()]
+  },
   createConfig({
     input: 'src/index.js',
     output: {
@@ -30,16 +41,5 @@ export default [
       file: pkg.main,
       format: 'cjs'
     }
-  }),
-  {
-    input: 'src/index.js',
-    output: [
-      {
-        dir: 'lib',
-        format: 'esm'
-      }
-    ],
-    preserveModules: true,
-    plugins: [resolve()]
-  }
+  })
 ];
