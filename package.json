@@ -1,6 +1,6 @@
 {
   "name": "lean-state-machine",
-  "version": "0.0.5-alpha.1",
+  "version": "0.0.5",
   "description": "A simple state management library to capture state with data",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
