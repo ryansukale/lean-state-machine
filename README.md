@@ -27,7 +27,7 @@ const params = {
   context: {result: 10, error: undefined},
   initial: 'init',
   states: {
-  	init: {},
+    init: {},
     loading: {},
     success: {},
     error: {},
