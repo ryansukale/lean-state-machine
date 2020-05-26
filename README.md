@@ -18,7 +18,11 @@ yarn add lean-state-machine
 npm install lean-state-machine
 ```
 
-```
+### Usage
+
+```js
+import createMachine from '../src/createMachine';
+
 const params = {
   context: {result: 10, error: undefined},
   initial: 'init',
