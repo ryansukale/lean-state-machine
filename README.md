@@ -36,26 +36,26 @@ const params = {
 
 const machine = createMachine(params);
 machine.getState();
-# 
-# {
-#   value: 'init',
-#   context: {result: 10, error: undefined}
-# }
-# 
+/*
+{
+  value: 'init',
+  context: {result: 10, error: undefined}
+}
+*/
 machine.context
-# {result: 10, error: undefined}
+/* {result: 10, error: undefined} */
 
 newState = machine.update("loading");
 newState.value;
-# loading
+/* loading */
 newState.context;
-# {result: 10, error: undefined}
+/* {result: 10, error: undefined} */
 
 newState = machine.update("success", (context) => ({result: 200}));
 newState.value
-# success
+/* success */
 newState.context;
-# {result: 200, error: undefined}
+/* {result: 200, error: undefined} */
 
 ```
 
