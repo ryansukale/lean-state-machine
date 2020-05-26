@@ -2,4 +2,5 @@
 
 ---
 
-Coming soon.
+### LICENSE
+MIT
