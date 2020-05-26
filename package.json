@@ -1,10 +1,20 @@
 {
   "name": "lean-state-machine",
-  "version": "0.0.4",
+  "version": "0.0.5-alpha.1",
   "description": "A simple state management library to capture state with data",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "module": "dist/index.es.js",
+  "files": [
+    "dist"
+  ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha --require reify tests/*.test.js",
+    "clean": "rimraf dist",
+    "build": "yarn clean && rollup -c",
+    "release:unstable:preview": "yarn build && np --any-branch --preview --tag unstable",
+    "release:unstable": "yarn build && np --any-branch --tag unstable",
+    "release:preview": "yarn build && np --preview",
+    "release": "yarn build && np"
   },
   "repository": {
     "type": "git",
@@ -19,5 +29,25 @@
   "bugs": {
     "url": "https://github.com/ryansukale/lean-state-machine/issues"
   },
-  "homepage": "https://github.com/ryansukale/lean-state-machine#readme"
+  "homepage": "https://github.com/ryansukale/lean-state-machine#readme",
+  "devDependencies": {
+    "@rollup/plugin-node-resolve": "^7.1.3",
+    "chai": "^4.2.0",
+    "husky": "^4.2.5",
+    "mocha": "^7.1.2",
+    "np": "^6.2.3",
+    "prettier": "^2.0.5",
+    "pretty-quick": "^2.0.1",
+    "reify": "^0.20.12",
+    "rimraf": "^3.0.2",
+    "rollup": "^2.7.3",
+    "rollup-plugin-filesize": "^7.0.0",
+    "rollup-plugin-terser": "^5.3.0",
+    "sinon": "^9.0.2"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged --pattern 'src/**/*.js'"
+    }
+  }
 }
