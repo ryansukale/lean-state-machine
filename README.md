@@ -7,7 +7,7 @@ A minimal non-directional state machine, inspired by [xstate](https://github.com
 - [x] Minimal footprint - 1/2kb gzipped.
 - [x] Extensible via plugins
 - [x] Individual files
-- [x] Same interface as xstate
+- [x] Same arguments shape as xstate so you leverage its [visualizer](https://xstate.js.org/viz/)
 - [x] Zero dependencies
 
 Consider this project as xstate on a low carb, low fat, low protein diet. You only have your essential vitamins and minerals - take some data, associate it with a state. You can extend this state machine with your own features by writing plugins.
