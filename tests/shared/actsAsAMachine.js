@@ -26,6 +26,9 @@ export default function actsAsAMachine({ createMachine }) {
       const machine = createMachine(params);
       
       let updatedState = machine.update("loading");
+      expect(updatedState.value).to.eql('loading');
+      expect(updatedState.context).to.eql({result: 10, error: undefined});
+
       expect(machine.getState()).to.eql({
         value: 'loading',
         context: {result: 10, error: undefined}
@@ -46,7 +49,7 @@ export default function actsAsAMachine({ createMachine }) {
       const machine = createMachine(params, options);
       const changes = {result: 200};
 
-      const updatedState = machine.update("success", () => changes);
+      machine.update("success", () => changes);
       expect(machine.getState()).to.eql({
         value: 'success',
         context: {...changes, error: undefined}
